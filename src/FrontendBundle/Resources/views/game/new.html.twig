@@ -1,0 +1,65 @@
+{% extends '@Frontend/base.html.twig' %}
+
+{% block specific_css %}
+    <link rel="stylesheet" href="/css/newgame.css">
+{% endblock %}  
+
+{% block specific_js %}
+    <script src="/js/newgame.js"></script>
+{% endblock %}
+
+{% block content %}
+    <form>
+        <div class="row">      
+            <div class="col-md-12">
+                <h1>Neues Spiel erstellen</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    Die Teammitglieder aus der Benutzerliste einfach in das gepunktete Feld ziehen
+                </p>
+            </div>
+            <div class="col-xs-12">
+                <div id="errorPanel" class="alert alert-danger nodisplay">
+                    Bitte genau zwei Spieler pro Team
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-5">
+                <h3>Team 1</h3>
+                <ul id="team1" class="sortableLists">
+                </ul>
+            </div>
+            <div class="col-xs-5">
+                <h3>Team 2</h3>
+                <ul id="team2" class="sortableLists">
+                </ul>
+            </div>
+            <div class="col-xs-2">
+                <h3>Benutzerliste</h3>
+                <ul id="allusers" class="sortableLists">
+                    {% for user in users %}
+                        <li data-userid="{{user.id}}">
+                            {{user.username}}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-xs-10 form-group">
+                <label for="inMaxPoints">Maximale Punkte:</label>
+                <input id="inMaxPoints" class="form-control" type="text" value="15">
+            </div>
+            <div class="col-xs-2">
+            </div>
+        </div>
+        <div class="row marginTop20">
+            <div class="col-xs-12">
+                <a class="btn btn-default btnNewGame" data-url="{{path('frontend_create_game')}}">Neues Spiel starten</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+

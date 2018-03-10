@@ -1,0 +1,30 @@
+frontend_start:
+    path:     /
+    defaults: { _controller: FrontendBundle:Default:index }
+    
+frontend_new_game:
+    path:     /newgame
+    defaults: { _controller: FrontendBundle:Game:new }
+
+frontend_create_game:
+    path:     /creategame
+    defaults: { _controller: FrontendBundle:Game:create }
+    
+    
+frontend_play_game:
+    path:     /game/{gameid}
+    defaults: { _controller: FrontendBundle:Play:index }
+    requirements:
+        id: '\d+'
+
+frontend_play_game_add_points:
+    path:     /game/{gameid}/addpoints
+    defaults: { _controller: FrontendBundle:Play:addPoints }
+    requirements:
+        id: '\d+'
+        
+frontend_play_game_remove_points:
+    path:     /game/{gameid}/removepoints
+    defaults: { _controller: FrontendBundle:Play:removePoints }
+    requirements:
+        id: '\d+'

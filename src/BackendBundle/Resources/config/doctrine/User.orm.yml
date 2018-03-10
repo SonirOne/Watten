@@ -1,0 +1,13 @@
+BackendBundle\Entity\User:
+    type: entity
+    table: user
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        username:
+            type: string
+            unique: true
+            length: 100
+

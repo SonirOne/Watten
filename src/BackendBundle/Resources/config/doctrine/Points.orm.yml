@@ -1,0 +1,26 @@
+BackendBundle\Entity\Points:
+    type: entity
+    table: points
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        points:
+            type: integer
+        created_at:
+            type: datetime
+    manyToOne:
+        game:
+            targetEntity: Game
+            joinColumn:
+              name: game_id
+              referencedColumnName: id
+        team:
+            targetEntity: Team
+            joinColumn:
+                name: team_id
+                referencedColumnName: id
+        
+          
+

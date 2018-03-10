@@ -1,0 +1,44 @@
+.nodisplay{
+    display: none;
+}
+
+.marginTop20{
+    margin-top: 20px;
+}
+
+.pointsPopup-outer{
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+.selectPoints{
+    padding: 15px;
+    margin: 10px;
+    font-size: 30px;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.sumPoints{
+    font-size: 30px;
+}
+
+.points-outer{
+    padding: 10px;
+}
+
+.points-inner{
+    text-align: center;
+    background-color: lightgray;
+    font-size: 35px;
+    padding: 10px;
+}
+
+.noBet{
+    background-color: lightcoral;
+}
+

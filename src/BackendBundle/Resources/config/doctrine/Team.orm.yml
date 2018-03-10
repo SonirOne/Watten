@@ -1,0 +1,24 @@
+BackendBundle\Entity\Team:
+    type: entity
+    table: team
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        teamname:
+            type: string
+            length: 100
+    manyToMany:
+        users:
+          targetEntity: User
+          joinTable:
+            name: team_users
+            joinColumns:
+              team_id:
+                referencedColumnName: id
+            inverseJoinColumns:
+              user_id:
+                referencedColumnName: id
+          cascade: [persist, remove]
+
