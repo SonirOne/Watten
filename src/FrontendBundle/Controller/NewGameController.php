@@ -5,11 +5,12 @@ namespace FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use DateTime;
 use BackendBundle\Entity\Team;
 use BackendBundle\Entity\Game;
 use BackendBundle\Entity\User;
 
-class GameController extends Controller {
+class NewGameController extends Controller {
 
     public function newAction() {
         $em = $this->getDoctrine()->getManager();
@@ -41,7 +42,7 @@ class GameController extends Controller {
             $em = $this->getDoctrine()->getManager();
 
             $game = new Game();
-            $game->setCreatedAt(new \DateTime());
+            $game->setCreatedAt(new DateTime());
             $game->setWinningPoints($maxPoints);
             $this->addTeam($game, 'Team1', $arrTeam1);
             $this->addTeam($game, 'Team2', $arrTeam2);
@@ -49,7 +50,7 @@ class GameController extends Controller {
             $em->flush();
 
             $data['gameid'] = $game->getId();
-            $data['gameurl'] = $this->generateUrl('frontend_play_game', array('id' => $game->getId()));
+            $data['gameurl'] = $this->generateUrl('frontend_play_game', array('gameid' => $game->getId()));
         }
 
         $jsonResponse = new JsonResponse();
@@ -65,6 +66,7 @@ class GameController extends Controller {
         /* @var $team Team */
         $team = new Team();
         $team->setTeamname($groupName);
+        $team->setCreatedAt(new DateTime());
         foreach ($arrUserIDs as $index => $userid) {
             /* @var $user User */
             $user = $em->getRepository('BackendBundle:User')->findOneBy(array('id' => $userid));

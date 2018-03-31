@@ -14,13 +14,24 @@ class PlayController extends Controller {
 
     public function indexAction($gameid) {
         $em = $this->getDoctrine()->getManager();
+
+        /* @var $game Game */
         $game = $em->getRepository('BackendBundle:Game')->findOneBy(array('id' => $gameid));
         if ($game == null) {
             throw new NotFoundHttpException('Spiel konnte nicht gefunden werden');
         }
 
+        $teams = $game->getTeams();
+        $team1id = $teams[0]->getID();
+        $team2id = $teams[1]->getID();
+
+        $points = $em->getRepository('BackendBundle:Points')->findBy(array('game' => $gameid));
+
         return $this->render('@Frontend/play/index.html.twig', array(
-                    'game' => $game
+                    'game' => $game,
+                    'team1id' => $team1id,
+                    'team2id' => $team2id,
+                    'points' => $points
         ));
     }
 
@@ -46,8 +57,7 @@ class PlayController extends Controller {
         $em->flush();
 
         $rowHtml = $this->renderView('@Frontend/play/pointEntry.html.twig', array(
-            'groupNr' => $groupNr,
-            'points' => $points
+            'point' => $addPoints
         ));
 
         $data['html'] = $rowHtml;
@@ -58,7 +68,22 @@ class PlayController extends Controller {
     }
 
     public function removePointsAction($gameid, Request $request) {
-        
+        $data = array();
+        $data['state'] = 'ok';
+
+        $gameID = $request->get('gameID');
+        $entryID = $request->get('entryID');
+
+        $em = $this->getDoctrine()->getManager();
+        $pointEntry = $em->getRepository('BackendBundle:Points')->findOneBy(array('id' => $entryID));
+        if ($pointEntry != null) {
+            $em->remove($pointEntry);
+            $em->flush();
+        }
+
+        $jsonResponse = new JsonResponse();
+        $jsonResponse->setData($data);
+        return $jsonResponse;
     }
 
 }

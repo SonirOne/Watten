@@ -5,8 +5,8 @@ namespace BackendBundle\Entity;
 /**
  * Points
  */
-class Points
-{
+class Points {
+
     /**
      * @var int
      */
@@ -22,64 +22,6 @@ class Points
      */
     private $team;
 
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set game.
-     *
-     * @param \BackendBundle\Entity\Game|null $game
-     *
-     * @return Points
-     */
-    public function setGame(\BackendBundle\Entity\Game $game = null)
-    {
-        $this->game = $game;
-
-        return $this;
-    }
-
-    /**
-     * Get game.
-     *
-     * @return \BackendBundle\Entity\Game|null
-     */
-    public function getGame()
-    {
-        return $this->game;
-    }
-
-    /**
-     * Set team.
-     *
-     * @param \BackendBundle\Entity\Team|null $team
-     *
-     * @return Points
-     */
-    public function setTeam(\BackendBundle\Entity\Team $team = null)
-    {
-        $this->team = $team;
-
-        return $this;
-    }
-
-    /**
-     * Get team.
-     *
-     * @return \BackendBundle\Entity\Team|null
-     */
-    public function getTeam()
-    {
-        return $this->team;
-    }
     /**
      * @var int
      */
@@ -90,6 +32,58 @@ class Points
      */
     private $created_at;
 
+    /**
+     * Get id.
+     *
+     * @return int
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set game.
+     *
+     * @param \BackendBundle\Entity\Game|null $game
+     *
+     * @return Points
+     */
+    public function setGame(\BackendBundle\Entity\Game $game = null) {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game.
+     *
+     * @return \BackendBundle\Entity\Game|null
+     */
+    public function getGame() {
+        return $this->game;
+    }
+
+    /**
+     * Set team.
+     *
+     * @param \BackendBundle\Entity\Team|null $team
+     *
+     * @return Points
+     */
+    public function setTeam(\BackendBundle\Entity\Team $team = null) {
+        $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * Get team.
+     *
+     * @return \BackendBundle\Entity\Team|null
+     */
+    public function getTeam() {
+        return $this->team;
+    }
 
     /**
      * Set points.
@@ -98,8 +92,7 @@ class Points
      *
      * @return Points
      */
-    public function setPoints($points)
-    {
+    public function setPoints($points) {
         $this->points = $points;
 
         return $this;
@@ -110,8 +103,7 @@ class Points
      *
      * @return int
      */
-    public function getPoints()
-    {
+    public function getPoints() {
         return $this->points;
     }
 
@@ -122,8 +114,7 @@ class Points
      *
      * @return Points
      */
-    public function setCreatedAt($createdAt)
-    {
+    public function setCreatedAt($createdAt) {
         $this->created_at = $createdAt;
 
         return $this;
@@ -134,8 +125,8 @@ class Points
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
-    {
+    public function getCreatedAt() {
         return $this->created_at;
     }
+
 }

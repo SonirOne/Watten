@@ -4,13 +4,12 @@ frontend_start:
     
 frontend_new_game:
     path:     /newgame
-    defaults: { _controller: FrontendBundle:Game:new }
+    defaults: { _controller: FrontendBundle:NewGame:new }
 
 frontend_create_game:
     path:     /creategame
-    defaults: { _controller: FrontendBundle:Game:create }
-    
-    
+    defaults: { _controller: FrontendBundle:NewGame:create }
+      
 frontend_play_game:
     path:     /game/{gameid}
     defaults: { _controller: FrontendBundle:Play:index }
@@ -28,3 +27,7 @@ frontend_play_game_remove_points:
     defaults: { _controller: FrontendBundle:Play:removePoints }
     requirements:
         id: '\d+'
+        
+frontend_game_overview:
+    path:     /games
+    defaults: { _controller: FrontendBundle:Games:index }   

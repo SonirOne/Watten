@@ -1,0 +1,27 @@
+{% extends '@Frontend/base.html.twig' %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Spiel</th>
+                <th>Maximale Punkte</th>
+                <th>Erstellt am</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in games %}
+                <tr>
+                    <td>{{game.id}}</td>
+                    <td>{{game.winningPoints}}</td>
+                    <td>{{game.createdAt|date('d.m.Y')}}</td>
+                    <td>
+                        <a href="{{path('frontend_play_game',{'gameid':game.id})}}">Zum Spiel</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

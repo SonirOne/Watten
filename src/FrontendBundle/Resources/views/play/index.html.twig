@@ -37,32 +37,43 @@
     </div>
     <div class="row marginTop20">
         <div class="col-xs-6 text-center">
-            <a class="btn btn-primary btnAddPoints" data-group="1" data-teamid="{{game.teams[0].id}}">Punkte eintragen</a>
+            <a id="btnAddGroup1" class="btn btn-primary btnAddPoints" data-group="1" data-teamid="{{team1id}}">Punkte eintragen</a>
         </div>
         <div class="col-xs-6 text-center">
-            <a class="btn btn-primary btnAddPoints" data-group="2" data-teamid="{{game.teams[1].id}}">Punkte eintragen</a>
+            <a id="btnAddGroup2" class="btn btn-primary btnAddPoints" data-group="2" data-teamid="{{team2id}}">Punkte eintragen</a>
         </div>
     </div>
     <div class="row marginTop20">
         <div class="col-xs-6 text-center sumPoints">
-            Gesamt: <span class="group1Points">0</span>
+            Punkte: <span class="group1Points">0</span>
         </div>
         <div class="col-xs-6 text-center sumPoints">
-            Gesamt: <span class="group2Points">0</span>
+            Punkte: <span class="group2Points">0</span>
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-6 group1PointWrapper">
+        <div id="group1PointWrapper" class="col-xs-6">
+            {% for point in points %}
+                {% if point.team.id==team1id %}
+                    {% include '@Frontend/play/pointEntry.html.twig' with {'point':point} %}
+                {% endif %}
+            {% endfor %}
         </div>
-        <div class="col-xs-6 group2PointWrapper">
+        <div id="group2PointWrapper" class="col-xs-6">
+            {% for point in points %}
+                {% if point.team.id==team2id %}
+                    {% include '@Frontend/play/pointEntry.html.twig' with {'points':point} %}
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-12 text-right">
+        <div class="col-xs-12">
             <span id="gameData" data-gameid="{{game.id}}" data-maxpoints="{{game.winningPoints}}">SpielID {{game.id}}</span>
         </div>
     </div>
     <div class="hidden">
+        <span class="teamids" data-team1id="{{team1id}}" data-team2id="{{team2id}}"></span>
         <span class="addPointsUrl" data-url="{{path('frontend_play_game_add_points',{'gameid':app.request.get('gameid')})}}"></span>
         <span class="removePointsUrl" data-url="{{path('frontend_play_game_remove_points',{'gameid':app.request.get('gameid')})}}"></span>
     </div>

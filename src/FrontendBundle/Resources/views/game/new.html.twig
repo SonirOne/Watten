@@ -28,17 +28,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-5">
+            <div class="col-md-5 col-xs-6">
                 <h3>Team 1</h3>
                 <ul id="team1" class="sortableLists">
                 </ul>
             </div>
-            <div class="col-xs-5">
+            <div class="col-md-5 col-xs-6">
                 <h3>Team 2</h3>
                 <ul id="team2" class="sortableLists">
                 </ul>
             </div>
-            <div class="col-xs-2">
+            <div class="col-md-2 col-xs-12">
                 <h3>Benutzerliste</h3>
                 <ul id="allusers" class="sortableLists">
                     {% for user in users %}
@@ -49,7 +49,8 @@
                 </ul>
             </div>
             <div class="col-xs-10 form-group">
-                <label for="inMaxPoints">Maximale Punkte:</label>
+                <h3>Maximalpunkte</h3>
+                <label for="inMaxPoints">Punkte:</label>
                 <input id="inMaxPoints" class="form-control" type="text" value="15">
             </div>
             <div class="col-xs-2">

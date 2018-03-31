@@ -9,6 +9,8 @@ BackendBundle\Entity\Team:
         teamname:
             type: string
             length: 100
+        created_at:
+            type: datetime            
     manyToMany:
         users:
           targetEntity: User

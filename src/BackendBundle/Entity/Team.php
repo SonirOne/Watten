@@ -5,8 +5,8 @@ namespace BackendBundle\Entity;
 /**
  * Group
  */
-class Team
-{
+class Team {
+
     /**
      * @var int
      */
@@ -23,10 +23,14 @@ class Team
     private $users;
 
     /**
+     * @var \DateTime
+     */
+    private $created_at;
+
+    /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -35,8 +39,7 @@ class Team
      *
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -47,8 +50,7 @@ class Team
      *
      * @return Group
      */
-    public function setTeamname($teamname)
-    {
+    public function setTeamname($teamname) {
         $this->teamname = $teamname;
 
         return $this;
@@ -59,8 +61,7 @@ class Team
      *
      * @return string
      */
-    public function getTeamname()
-    {
+    public function getTeamname() {
         return $this->teamname;
     }
 
@@ -71,8 +72,7 @@ class Team
      *
      * @return Group
      */
-    public function addUser(\BackendBundle\Entity\User $user)
-    {
+    public function addUser(\BackendBundle\Entity\User $user) {
         $this->users[] = $user;
 
         return $this;
@@ -85,8 +85,7 @@ class Team
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeUser(\BackendBundle\Entity\User $user)
-    {
+    public function removeUser(\BackendBundle\Entity\User $user) {
         return $this->users->removeElement($user);
     }
 
@@ -95,8 +94,30 @@ class Team
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getUsers()
-    {
+    public function getUsers() {
         return $this->users;
     }
+
+    /**
+     * Set createdAt.
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Team
+     */
+    public function setCreatedAt($createdAt) {
+        $this->created_at = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt.
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt() {
+        return $this->created_at;
+    }
+
 }

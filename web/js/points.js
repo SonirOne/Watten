@@ -25,7 +25,7 @@ $(document).ready(function () {
 
     $('.btnMorePoints').click(function () {
         var points = $('.inputMorePoints').val();
-        addPoints(currentGroup, teamID, points);      
+        addPoints(currentGroup, teamID, points);
         $('.pointsPopup-outer').hide();
     });
 
@@ -45,7 +45,7 @@ $(document).ready(function () {
         }).done(function (resp) {
             console.log(resp);
             if (resp.state === 'ok') {
-                var groupSelector = '.group' + groupNr + 'PointWrapper';
+                var groupSelector = '#group' + groupNr + 'PointWrapper';
                 $(groupSelector).append(resp.html);
                 calcPoints();
             }
@@ -55,46 +55,45 @@ $(document).ready(function () {
     };
 
     var calcPoints = function () {
-
-        var pointsGroup1 = 0;
-        var pointsGroup2 = 0;
-
-        $('.points-outer').each(function (index, element) {
-            var groupNr = $(element).data('group');
-            var points = $(element).data('points');
-            if (groupNr === 1) {
-                pointsGroup1 += points;
-            } else {
-                pointsGroup2 += points;
-            }
-
-        });
-
+        var pointsGroup1 = calcPointsForGroup('#group1PointWrapper');
+        var pointsGroup2 = calcPointsForGroup('#group2PointWrapper');
         $('.group1Points').text(pointsGroup1);
         $('.group2Points').text(pointsGroup2);
-        checkNoBet(pointsGroup1, pointsGroup2);
+        checkNoBet(pointsGroup1, '#group1PointWrapper', '#btnAddGroup1');
+        checkNoBet(pointsGroup2, '#group2PointWrapper', '#btnAddGroup2');
+    };
+
+    var calcPointsForGroup = function (groupID) {
+        var points = 0;
+
+        $(groupID).find('.points-outer').each(function (index, element) {
+            var elemPoints = $(element).data('points');
+            points += elemPoints;
+        });
+
+        return points;
     };
 
     var maxPoints = $('#gameData').data('maxpoints');
     var noBet = maxPoints - 2;
+
     console.log('MaxPoints: ', maxPoints, ' NoBet: ', noBet);
-    var checkNoBet = function (pointsGroup1, pointsGroup2) {
-        if (pointsGroup1 >= noBet) {
-            $('.group1PointWrapper').addClass('noBet');
+    var checkNoBet = function (pointsGroup, wrapperElement, btnElement) {
+        console.log('CheckNoBet: ', pointsGroup, wrapperElement, btnElement);
+        if (pointsGroup >= noBet) {
+            console.log('Disable btn...');
+            $(wrapperElement).addClass('noBet');
+            $(btnElement).hide();
         } else {
-            $('.group1PointWrapper').removeClass('noBet');
+            console.log('Enabled btn...');
+            $(wrapperElement).removeClass('noBet');
+            $(btnElement).show();
         }
-
-
-        if (pointsGroup2 >= noBet) {
-            $('.group2PointWrapper').addClass('noBet');
-        } else {
-            $('.group2PointWrapper').removeClass('noBet');
-        }
-    }
+    };
 
     $('body').on("click", '.points-outer', function (event) {
         var pointsElement = $(this);
+        var entryID = $(pointsElement).data('id');
         bootbox.confirm({
             size: "large",
             message: "Punkte löschen",
@@ -110,11 +109,28 @@ $(document).ready(function () {
             },
             callback: function (result) {
                 if (result === true) {
-                    pointsElement.remove();
-                    calcPoints();
+                    $.ajax({
+                        method: "POST",
+                        url: removePointsUrl,
+                        dataType: "json",
+                        data: {
+                            gameID: gameID,
+                            entryID: entryID
+                        }
+                    }).done(function (resp) {
+                        console.log(resp);
+                        if (resp.state === 'ok') {
+                            pointsElement.remove();
+                            calcPoints();
+                        }
+                    }).fail(function (resp) {
+                        console.log(resp);
+                    });
                 }
             }
         });
     });
+
+    calcPoints();
 });
 
