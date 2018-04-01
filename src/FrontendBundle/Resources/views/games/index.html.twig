@@ -1,27 +1,41 @@
 {% extends '@Frontend/base.html.twig' %}
 
 {% block content %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Spiel</th>
-                <th>Maximale Punkte</th>
-                <th>Erstellt am</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for game in games %}
-                <tr>
-                    <td>{{game.id}}</td>
-                    <td>{{game.winningPoints}}</td>
-                    <td>{{game.createdAt|date('d.m.Y')}}</td>
-                    <td>
-                        <a href="{{path('frontend_play_game',{'gameid':game.id})}}">Zum Spiel</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Team 1</th>
+                        <th>Team 2</th>
+                        <th>Gewinner</th>
+                        <th>Erstellt am</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in games %}
+                        <tr>
+                            <td>{{game.id}}</td>
+                            <td>{{game.teams[0].teamname}}</td>
+                            <td>{{game.teams[1].teamname}}</td>
+                            <td>
+                                {% if game.gameState.id==2 %}
+                                    {{game.gameWinner.teamname}}
+                                {% endif %}
+                            </td>
+                            <td>{{game.createdAt|date('d.m.Y H:i')}}</td>
+                            <td>{{game.gameState.text|default('')}}</td>
+                            <td>
+                                <a href="{{path('frontend_play_game',{'gameid':game.id})}}">Zum Spiel</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
 

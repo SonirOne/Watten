@@ -119,5 +119,5 @@ class Team {
     public function getCreatedAt() {
         return $this->created_at;
     }
-
+    
 }

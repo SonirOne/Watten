@@ -17,6 +17,12 @@ $(document).ready(function () {
         $('.pointsPopup-outer').show();
     });
 
+    $('.btnWon').click(function () {
+        currentGroup = $(this).data('group');
+        teamID = $(this).data('teamid');
+        addPoints(currentGroup, teamID, 2);
+    });
+
     $('.selectPoints').click(function () {
         var points = $(this).data('points');
         addPoints(currentGroup, teamID, points);
@@ -59,8 +65,20 @@ $(document).ready(function () {
         var pointsGroup2 = calcPointsForGroup('#group2PointWrapper');
         $('.group1Points').text(pointsGroup1);
         $('.group2Points').text(pointsGroup2);
-        checkNoBet(pointsGroup1, '#group1PointWrapper', '#btnAddGroup1');
-        checkNoBet(pointsGroup2, '#group2PointWrapper', '#btnAddGroup2');
+
+        if (pointsGroup1 === maxPoints || pointsGroup2 === maxPoints) {
+            hideButtons();
+        } else {
+            checkNoBet(pointsGroup1, '#group1PointWrapper', '#btnAddGroup1', '#btnWonGroup1');
+            checkNoBet(pointsGroup2, '#group2PointWrapper', '#btnAddGroup2', '#btnWonGroup2');
+        }
+    };
+
+    var hideButtons = function () {
+        $('#btnAddGroup1').hide();
+        $('#btnWonGroup1').hide();
+        $('#btnAddGroup2').hide();
+        $('#btnWonGroup2').hide();
     };
 
     var calcPointsForGroup = function (groupID) {
@@ -78,16 +96,18 @@ $(document).ready(function () {
     var noBet = maxPoints - 2;
 
     console.log('MaxPoints: ', maxPoints, ' NoBet: ', noBet);
-    var checkNoBet = function (pointsGroup, wrapperElement, btnElement) {
-        console.log('CheckNoBet: ', pointsGroup, wrapperElement, btnElement);
+    var checkNoBet = function (pointsGroup, wrapperElement, btnAddElement, btnWonElement) {
+        console.log('CheckNoBet: ', pointsGroup, wrapperElement, btnAddElement);
         if (pointsGroup >= noBet) {
             console.log('Disable btn...');
             $(wrapperElement).addClass('noBet');
-            $(btnElement).hide();
+            $(btnAddElement).hide();
+            $(btnWonElement).show();
         } else {
             console.log('Enabled btn...');
             $(wrapperElement).removeClass('noBet');
-            $(btnElement).show();
+            $(btnAddElement).show();
+            $(btnWonElement).hide();
         }
     };
 

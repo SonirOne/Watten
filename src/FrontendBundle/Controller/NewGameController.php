@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use DateTime;
 use BackendBundle\Entity\Team;
 use BackendBundle\Entity\Game;
+use BackendBundle\Entity\GameState;
 use BackendBundle\Entity\User;
 
 class NewGameController extends Controller {
@@ -44,8 +45,13 @@ class NewGameController extends Controller {
             $game = new Game();
             $game->setCreatedAt(new DateTime());
             $game->setWinningPoints($maxPoints);
-            $this->addTeam($game, 'Team1', $arrTeam1);
-            $this->addTeam($game, 'Team2', $arrTeam2);
+            $this->addTeam($game, $arrTeam1);
+            $this->addTeam($game, $arrTeam2);
+
+            /* @var $gameState GameState */
+            $gameState = $em->getRepository('BackendBundle:GameState')->findOneBy(array('text' => 'Läuft'));
+            $game->setGameState($gameState);
+
             $em->persist($game);
             $em->flush();
 
@@ -60,21 +66,24 @@ class NewGameController extends Controller {
 
     /* @var $game Game */
 
-    private function addTeam(&$game, $groupName, $arrUserIDs) {
+    private function addTeam(&$game, $arrUserIDs) {
         $em = $this->getDoctrine()->getManager();
 
         /* @var $team Team */
         $team = new Team();
-        $team->setTeamname($groupName);
         $team->setCreatedAt(new DateTime());
+        $tmpTeamName = '';
         foreach ($arrUserIDs as $index => $userid) {
             /* @var $user User */
             $user = $em->getRepository('BackendBundle:User')->findOneBy(array('id' => $userid));
             if ($user != null) {
+                $tmpTeamName .= $user->getUsername() . ' & ';
                 $team->addUser($user);
             }
         }
 
+        $teamName = substr($tmpTeamName, 0, -3);
+        $team->setTeamname($teamName);
         $game->addTeam($team);
     }
 

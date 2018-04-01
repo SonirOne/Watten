@@ -10,6 +10,20 @@ BackendBundle\Entity\Game:
             type: integer
         created_at:
             type: datetime
+        finished_at:
+            type: datetime
+            nullable: true
+    manyToOne:
+        game_state:
+            targetEntity: GameState
+            joinColumn:
+                game_state_id:
+                    referencedColumnName: id
+        game_winner:
+            targetEntity: Team
+            joinColumn:
+                game_winner_id:
+                    referencedColumnName: id            
     manyToMany:
         teams:
           targetEntity: Team

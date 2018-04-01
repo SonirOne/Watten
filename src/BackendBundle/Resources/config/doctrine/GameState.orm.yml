@@ -1,0 +1,12 @@
+BackendBundle\Entity\GameState:
+    type: entity
+    table: game_state
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        text:
+            type: string
+            length: 100
+
