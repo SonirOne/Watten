@@ -47,16 +47,16 @@ class PlayController extends Controller {
         $addPoints = $request->get('points');
         $data['submittedPoints'] = $addPoints;
 
-        $teamStat = $this->getTeamStats($gameID, $teamID);
-        if (count($teamStat) > 0) {
-            $addPoints = $this->checkAddPoints($gameID, $addPoints, $teamStat[0]);
+        $teamStats = $this->getTeamStats($gameID, $teamID);
+        if (count($teamStats) > 0) {
+            $addPoints = $this->checkAddPoints($gameID, $addPoints, $teamStats);
             $data['addedPoints'] = $addPoints;
         }
 
         $rowHtml = $this->savePointsToDB($gameID, $teamID, $addPoints);
         $data['html'] = $rowHtml;
 
-        $data['gameState'] = $this->checkGameState($gameID, $teamID);
+        $data['gameState'] = $this->checkGameStateAfterAdd($gameID, $teamID);
 
         $jsonResponse = new JsonResponse();
         $jsonResponse->setData($data);
@@ -73,15 +73,20 @@ class PlayController extends Controller {
         $statement->bindValue(':teamID', $teamID);
         $statement->execute();
         $result = $statement->fetchAll();
-        return $result;
+
+        if (count($result) > 0) {
+            return $result[0];
+        }
+
+        return array();
     }
 
-    private function checkAddPoints($gameID, $addPoints, $teamStat) {
+    private function checkAddPoints($gameID, $addPoints, $teamStats) {
         $em = $this->getDoctrine()->getManager();
         /* @var $game Game */
         $game = $em->getRepository('BackendBundle:Game')->findOneBy(array('id' => $gameID));
         $maxPoints = $game->getWinningPoints();
-        $currentPoints = $teamStat['points'];
+        $currentPoints = $teamStats['points'];
         if ($currentPoints + $addPoints > $maxPoints) {
             return $maxPoints - $currentPoints;
         }
@@ -108,16 +113,18 @@ class PlayController extends Controller {
         return $rowHtml;
     }
 
-    private function checkGameState($gameID, $teamID) {
+    private function checkGameStateAfterAdd($gameID, $teamID) {
+        $data = array();
+
         $em = $this->getDoctrine()->getManager();
         /* @var $game Game */
         $game = $em->getRepository('BackendBundle:Game')->findOneBy(array('id' => $gameID));
-        $teamStat = $this->getTeamStats($gameID, $teamID);
+        $teamStats = $this->getTeamStats($gameID, $teamID);
 
         $winningPoints = $game->getWinningPoints();
-        if (count($teamStat) > 0 && $teamStat[0]['points'] >= $winningPoints) {
+        if (array_key_exists('points', $teamStats) && $teamStats['points'] >= $winningPoints) {
             /* @var $gameState GameState */
-            $gameState = $em->getRepository('BackendBundle:GameState')->findOneBy(array('text' => 'Beendet'));
+            $gameState = $em->getRepository('BackendBundle:GameState')->findOneBy(array('id' => 2));
             $game->setGameState($gameState);
 
             /* @var $gameWinner Team */
@@ -128,10 +135,11 @@ class PlayController extends Controller {
             $em->persist($game);
             $em->flush();
 
-            return 'finished';
+            $data['winner'] = $gameWinner->getTeamname();
         }
 
-        return 'running';
+        $data['state'] = $game->getGameState()->getId();
+        return $data;
     }
 
     public function removePointsAction($gameid, Request $request) {
@@ -146,11 +154,46 @@ class PlayController extends Controller {
         if ($pointEntry != null) {
             $em->remove($pointEntry);
             $em->flush();
+
+            $this->checkGameStateAfterRemove($gameID);
         }
 
         $jsonResponse = new JsonResponse();
         $jsonResponse->setData($data);
         return $jsonResponse;
+    }
+
+    private function checkGameStateAfterRemove($gameID) {
+        $em = $this->getDoctrine()->getManager();
+        /* @var $game Game */
+        $game = $em->getRepository('BackendBundle:Game')->findOneBy(array('id' => $gameID));
+        $gameStats = $this->getGameStats($gameID);
+
+        if (count($gameStats) == 2 && $game->getGameState()->getId() == 2) {
+            $winningPoints = $game->getWinningPoints();
+
+            if ($gameStats[0]['points'] < $winningPoints && $gameStats[1]['points'] < $winningPoints) {
+                /* @var $gameState GameState */
+                $gameState = $em->getRepository('BackendBundle:GameState')->findOneBy(array('id' => 1));
+                $game->setGameState($gameState);
+                $game->setGameWinner(null);
+                $game->setFinishedAt(null);
+                $em->persist($game);
+                $em->flush();
+            }
+        }
+    }
+
+    private function getGameStats($gameID) {
+        $em = $this->getDoctrine()->getManager();
+        $connection = $em->getConnection();
+
+        /* @var $statement Statement */
+        $statement = $connection->prepare('SELECT team_id as teamID, sum(points) as points FROM watten.points WHERE game_id=:gameID GROUP BY team_id');
+        $statement->bindValue(':gameID', $gameID);
+        $statement->execute();
+        $result = $statement->fetchAll();
+        return $result;
     }
 
 }

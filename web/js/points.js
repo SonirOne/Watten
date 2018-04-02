@@ -14,7 +14,7 @@ $(document).ready(function () {
         teamID = $(this).data('teamid');
         console.log('Group: ', currentGroup);
         $('.inputMorePoints').val('');
-        $('.pointsPopup-outer').show();
+        showPopupPanel('.pointsPopup-outer');
     });
 
     $('.btnWon').click(function () {
@@ -26,13 +26,13 @@ $(document).ready(function () {
     $('.selectPoints').click(function () {
         var points = $(this).data('points');
         addPoints(currentGroup, teamID, points);
-        $('.pointsPopup-outer').hide();
+        $('.popup-panel').hide();
     });
 
     $('.btnMorePoints').click(function () {
         var points = $('.inputMorePoints').val();
         addPoints(currentGroup, teamID, points);
-        $('.pointsPopup-outer').hide();
+        $('.popup-panel').hide();
     });
 
     var addPoints = function (groupNr, teamID, points) {
@@ -54,6 +54,12 @@ $(document).ready(function () {
                 var groupSelector = '#group' + groupNr + 'PointWrapper';
                 $(groupSelector).append(resp.html);
                 calcPoints();
+
+                if (resp.gameState.state === 2) {
+                    $('#winnerText').text(resp.gameState.winner);
+                    showPopupPanel('.winnerPopup-outer');
+                }
+
             }
         }).fail(function (resp) {
             console.log(resp);
@@ -101,13 +107,13 @@ $(document).ready(function () {
         if (pointsGroup >= noBet) {
             console.log('Disable btn...');
             $(wrapperElement).addClass('noBet');
-            $(btnAddElement).hide();
-            $(btnWonElement).show();
+            $(btnAddElement).addClass('nodisplay');
+            $(btnWonElement).removeClass('nodisplay');
         } else {
             console.log('Enabled btn...');
             $(wrapperElement).removeClass('noBet');
-            $(btnAddElement).show();
-            $(btnWonElement).hide();
+            $(btnAddElement).removeClass('nodisplay');
+            $(btnWonElement).addClass('nodisplay');
         }
     };
 
@@ -150,6 +156,15 @@ $(document).ready(function () {
             }
         });
     });
+
+    var showPopupPanel = function (element) {
+        //   first hide elements
+        $('.pointsPopup-outer').hide();
+        $('.winnerPopup-outer').hide();
+
+        $('.popup-panel').show();
+        $(element).show();
+    };
 
     calcPoints();
 });

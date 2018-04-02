@@ -5,6 +5,7 @@ namespace FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTime;
 use BackendBundle\Entity\Team;
 use BackendBundle\Entity\Game;
@@ -62,6 +63,36 @@ class NewGameController extends Controller {
         $jsonResponse = new JsonResponse();
         $jsonResponse->setData($data);
         return $jsonResponse;
+    }
+
+    public function revancheAction($gameid) {
+        $em = $this->getDoctrine()->getManager();
+
+        /* @var $previousGame Game */
+        $previousGame = $em->getRepository('BackendBundle:Game')->findOneBy(array('id' => $gameid));
+        if ($previousGame == null) {
+            throw new NotFoundHttpException('Spiel konnte nicht gefunden werden');
+        }
+
+        $newGameState = $em->getRepository('BackendBundle:GameState')->findOneBy(array('id' => 1));
+
+        /* @var $newGame Game */
+        $newGame = new Game();
+        $newGame->setGameState($newGameState);
+        $newGame->setWinningPoints($previousGame->getWinningPoints());
+        $newGame->setCreatedAt(new DateTime());
+
+        $teams = $previousGame->getTeams();
+        foreach ($teams as $team) {
+            $newGame->addTeam($team);
+        }
+
+        $em->persist($newGame);
+        $em->flush();
+
+        $newGameID = $newGame->getId();
+
+        return $this->redirectToRoute('frontend_play_game', array('gameid' => $newGameID));
     }
 
     /* @var $game Game */

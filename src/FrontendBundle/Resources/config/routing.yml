@@ -9,7 +9,13 @@ frontend_new_game:
 frontend_create_game:
     path:     /creategame
     defaults: { _controller: FrontendBundle:NewGame:create }
-      
+
+frontend_revanche_game:
+    path:     /revanche/{gameid}
+    defaults: { _controller: FrontendBundle:NewGame:revanche }
+    requirements:
+        id: '\d+'
+
 frontend_play_game:
     path:     /game/{gameid}
     defaults: { _controller: FrontendBundle:Play:index }
@@ -28,6 +34,12 @@ frontend_play_game_remove_points:
     requirements:
         id: '\d+'
         
-frontend_game_overview:
+frontend_games_overview:
     path:     /games
-    defaults: { _controller: FrontendBundle:Games:index }   
+    defaults: { _controller: FrontendBundle:Games:index }
+    
+frontend_game_result:
+    path:     /game/{gameid}/result
+    defaults: { _controller: FrontendBundle:Games:result }
+    requirements:
+        id: '\d+' 

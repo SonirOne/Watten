@@ -1,0 +1,41 @@
+<div class="popup-content">
+    <div class="pointsPopup-outer">
+        <div class="row">
+            <div class="col-md-12 text-center selectPoints" data-points="2">2 Punkte</div>
+            <div class="col-md-12 text-center selectPoints" data-points="3">3 Punkte</div>
+            <div class="col-md-12 text-center selectPoints" data-points="4">4 Punkte</div>
+            <div class="col-md-12 text-center selectPoints" data-points="5">5 Punkte</div>
+            <div class="col-md-12 marginTop20">
+                <form>
+                    <div class="form-group">
+                        <label for="otherPoints">Andere Punktanzahl:</label>
+                        <input id="otherPoints" class="form-control input-lg inputMorePoints" type="text" placeholder="Punkte">                              
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-default btnMorePoints">Punkte eintragen</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="winnerPopup-outer">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3>Spiel beendet!</h3>
+            </div>
+            <div class="col-md-12 text-center">
+                <i class="fa fa-trophy winnerTrophy" aria-hidden="true"></i>
+            </div>
+            <div class="col-md-12 marginTop20">
+                <h3>Gewinner:</h3>
+                <span id="winnerText"></span>
+            </div>
+            <div class="col-md-12 text-center marginTop20">
+                <a class="btn btn-primary btn-block" href="{{path('frontend_new_game')}}">Neues Spiel</a>
+            </div>
+            <div class="col-md-12 text-center marginTop20">
+                <a class="btn btn-primary btn-block" href="{{path('frontend_revanche_game',{'gameid':app.request.get('gameid')})}}">Revanche</a>
+            </div>
+        </div>
+    </div>
+</div>

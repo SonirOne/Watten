@@ -23,13 +23,21 @@
                             <td>{{game.teams[1].teamname}}</td>
                             <td>
                                 {% if game.gameState.id==2 %}
-                                    {{game.gameWinner.teamname}}
+                                    <i class="fa fa-trophy" aria-hidden="true"></i> {{game.gameWinner.teamname}}
                                 {% endif %}
                             </td>
                             <td>{{game.createdAt|date('d.m.Y H:i')}}</td>
                             <td>{{game.gameState.text|default('')}}</td>
                             <td>
-                                <a href="{{path('frontend_play_game',{'gameid':game.id})}}">Zum Spiel</a>
+                                {% if game.gameState.id==2 %}
+                                    <a href="{{path('frontend_game_result',{'gameid':game.id})}}">
+                                        <i class="fa fa-columns" aria-hidden="true"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="{{path('frontend_play_game',{'gameid':game.id})}}">
+                                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
