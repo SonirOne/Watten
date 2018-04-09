@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20180401090050 extends AbstractMigration
+class Version20180409071209 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
@@ -17,10 +17,10 @@ class Version20180401090050 extends AbstractMigration
 
         $this->addSql('CREATE TABLE game (id INT AUTO_INCREMENT NOT NULL, game_state_id INT DEFAULT NULL, game_winner_id INT DEFAULT NULL, winning_points INT NOT NULL, created_at DATETIME NOT NULL, finished_at DATETIME DEFAULT NULL, INDEX IDX_232B318CAE9CC3E7 (game_state_id), INDEX IDX_232B318C8F5A15BA (game_winner_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE game_teams (game_id INT NOT NULL, group_id INT NOT NULL, INDEX IDX_A4F15BD7E48FD905 (game_id), INDEX IDX_A4F15BD7FE54D947 (group_id), PRIMARY KEY(game_id, group_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE team (id INT AUTO_INCREMENT NOT NULL, teamname VARCHAR(100) NOT NULL, created_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE team (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(100) NOT NULL, created_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE team_users (team_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_D385ECA9296CD8AE (team_id), INDEX IDX_D385ECA9A76ED395 (user_id), PRIMARY KEY(team_id, user_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE points (id INT AUTO_INCREMENT NOT NULL, game_id INT DEFAULT NULL, team_id INT DEFAULT NULL, points INT NOT NULL, created_at DATETIME NOT NULL, INDEX IDX_27BA8E29E48FD905 (game_id), INDEX IDX_27BA8E29296CD8AE (team_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(100) NOT NULL, UNIQUE INDEX UNIQ_8D93D649F85E0677 (username), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(100) NOT NULL, UNIQUE INDEX UNIQ_8D93D6495E237E06 (name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE game_state (id INT AUTO_INCREMENT NOT NULL, text VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318CAE9CC3E7 FOREIGN KEY (game_state_id) REFERENCES game_state (id)');
         $this->addSql('ALTER TABLE game ADD CONSTRAINT FK_232B318C8F5A15BA FOREIGN KEY (game_winner_id) REFERENCES team (id)');

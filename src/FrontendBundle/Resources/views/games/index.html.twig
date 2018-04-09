@@ -19,11 +19,11 @@
                     {% for game in games %}
                         <tr>
                             <td>{{game.id}}</td>
-                            <td>{{game.teams[0].teamname}}</td>
-                            <td>{{game.teams[1].teamname}}</td>
+                            <td>{{game.teams[0].name}}</td>
+                            <td>{{game.teams[1].name}}</td>
                             <td>
                                 {% if game.gameState.id==2 %}
-                                    <i class="fa fa-trophy" aria-hidden="true"></i> {{game.gameWinner.teamname}}
+                                    <i class="fa fa-trophy" aria-hidden="true"></i> {{game.gameWinner.name}}
                                 {% endif %}
                             </td>
                             <td>{{game.createdAt|date('d.m.Y H:i')}}</td>

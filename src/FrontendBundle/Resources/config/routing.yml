@@ -10,6 +10,14 @@ frontend_create_game:
     path:     /creategame
     defaults: { _controller: FrontendBundle:NewGame:create }
 
+frontend_new_game_search_user:
+    path:     /searchuser
+    defaults: { _controller: FrontendBundle:NewGame:searchUser }
+
+frontend_new_game_search_team:
+    path:     /searchteam
+    defaults: { _controller: FrontendBundle:NewGame:searchTeam }
+
 frontend_revanche_game:
     path:     /revanche/{gameid}
     defaults: { _controller: FrontendBundle:NewGame:revanche }

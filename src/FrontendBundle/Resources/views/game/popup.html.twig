@@ -1,0 +1,67 @@
+<div class="popup-content">
+    <div class="user-outer">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <form id="frmUserSearch" method="POST" action="{{path('frontend_new_game_search_user')}}">
+                        <div class="col-xs-12">
+                            <h3>Suchtext eingeben:</h3>
+                        </div>
+                        <div class="col-xs-12 col-md-10">
+                            <div class="form-group">
+                                <input id="userSearchText" name="searchtext" type="text" class="form-control" placeholder="Benutzername">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-2">
+                            <button id="btnUserSearch" type="submit" class="btn btn-default">Suchen</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <table id="userResultTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="team-outer">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <form id="frmTeamSearch" method="POST" action="{{path('frontend_new_game_search_team')}}">
+                        <div class="col-xs-12">
+                            <h3>Suchtext eingeben:</h3>
+                        </div>
+                        <div class="col-xs-12 col-md-10">
+                            <div class="form-group">
+                                <input id="teamSearchText" name="searchtext" type="text" class="form-control" placeholder="Teamname">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-2">
+                            <button id="btnTeamSearch" type="submit" class="btn btn-default">Suchen</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <table id="teamResultTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Teamname</th>
+                            <th>Spieler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

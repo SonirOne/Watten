@@ -15,7 +15,7 @@ class User
     /**
      * @var string
      */
-    private $username;
+    private $name;
 
 
     /**
@@ -35,9 +35,9 @@ class User
      *
      * @return User
      */
-    public function setUsername($username)
+    public function setName($username)
     {
-        $this->username = $username;
+        $this->name = $username;
 
         return $this;
     }
@@ -47,8 +47,9 @@ class User
      *
      * @return string
      */
-    public function getUsername()
+    public function getName()
     {
-        return $this->username;
+        return $this->name;
     }
+
 }

@@ -15,7 +15,7 @@ class Team {
     /**
      * @var string
      */
-    private $teamname;
+    private $name;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -46,23 +46,23 @@ class Team {
     /**
      * Set groupname.
      *
-     * @param string $teamname
+     * @param string $name
      *
      * @return Group
      */
-    public function setTeamname($teamname) {
-        $this->teamname = $teamname;
+    public function setName($name) {
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get teamname.
+     * Get name.
      *
      * @return string
      */
-    public function getTeamname() {
-        return $this->teamname;
+    public function getName() {
+        return $this->name;
     }
 
     /**

@@ -1,0 +1,10 @@
+{% for team in teams %}
+    <tr class="teamentry" data-teamid="{{team.id}}" data-teamname="{{team.name}}">
+        <td>{{team.name}}</td>
+        <td>
+            {% for user in team.users %}
+                {{user.name}}
+            {% endfor %}
+        </td>
+    </tr>
+{% endfor %}

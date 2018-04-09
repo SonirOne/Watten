@@ -6,7 +6,7 @@ BackendBundle\Entity\Team:
             type: integer
             generator: { strategy: AUTO }
     fields:
-        teamname:
+        name:
             type: string
             length: 100
         created_at:

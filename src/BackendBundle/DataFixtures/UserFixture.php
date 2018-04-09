@@ -11,23 +11,23 @@ class UserFixture extends Fixture {
     public function load(ObjectManager $manager) {
 
         $user = new User();
-        $user->setUsername('Max');
+        $user->setName('Max');
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('Anna');
+        $user->setName('Anna');
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('Moritz');
+        $user->setName('Moritz');
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('Susanne');
+        $user->setName('Susanne');
         $manager->persist($user);
 
         $user = new User();
-        $user->setUsername('Alexander');
+        $user->setName('Alexander');
         $manager->persist($user);
 
         $manager->flush();

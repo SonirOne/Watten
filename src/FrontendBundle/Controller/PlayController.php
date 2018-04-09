@@ -135,7 +135,7 @@ class PlayController extends Controller {
             $em->persist($game);
             $em->flush();
 
-            $data['winner'] = $gameWinner->getTeamname();
+            $data['winner'] = $gameWinner->getName();
         }
 
         $data['state'] = $game->getGameState()->getId();

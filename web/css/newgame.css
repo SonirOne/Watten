@@ -1,4 +1,4 @@
-.sortableLists {
+.entryList {
     border: 1px dotted black;
     width: 100%;
     min-height: 40px;
@@ -8,10 +8,18 @@
     float: left;
     margin-right: 10px;
 }
-.sortableLists li {
+.entryList li {
     margin: 0 5px 5px 5px;
     padding: 5px;
     font-size: 1.2em;
     width: 120px;
+}
+
+.user-outer{
+    display: none;
+}
+
+.team-outer{
+    display: none;
 }
 
